@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     astro.cpp \
+    gsimulation.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
     astro.h \
+    gsimulation.h \
     widget.h
 
 FORMS += \
