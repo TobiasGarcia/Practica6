@@ -1,19 +1,33 @@
 #include "astro.h"
 #include <QDebug>
 
-Astro::Astro(float x0, float y0, float vx0, float vy0, float _m, float _radio) {
+Astro::Astro(short _radio)  : radio(_radio) {
 
-    m = _m;
-    radio = _radio;
-
-    setOffset(-30, -30);
+    setOffset(-30, -30); //Esto hay que cambiarlo según la imágen
     setPixmap(QPixmap(":/resources/sun.png"));
-
-    r[0] = x0;
-    r[1] = y0;
-
-    v[0] = vx0;
-    v[1] = vy0;
-
-    setPos(r[0]*(700./16000.), -r[1]*(700./16000.));
 }
+
+//void Astro::update_trajectory() {
+
+//    a[0] = 0;
+//    a[1] = 0;
+
+//    for (unsigned short i = 0; i < data_ptr->size(); i++) {
+//        if (id != i) {
+//            a_aux = (*data_ptr)[i][2]/pow(pow(r[0] - (*data_ptr)[i][0], 2) + pow(r[1] - (*data_ptr)[i][1], 2), 1.5);
+//            a[0] += a_aux*((*data_ptr)[i][0] - r[0]);
+//            a[1] += a_aux*((*data_ptr)[i][1] - r[1]);
+//        }
+//    }
+
+//    a[0] = G*a[0];
+//    a[1] = G*a[1];
+
+//    v[0] = v[0] + T*a[0];
+//    v[1] = v[1] + T*a[1];
+
+//    r[0] = r[0] + T*v[0];
+//    r[1] = r[1] + T*v[1];
+
+//    setPos(r[0]*(700./16000.), -r[1]*(700./16000.));
+//}

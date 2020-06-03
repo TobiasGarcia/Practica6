@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QWidget>
 #include "astro.h"
+#include "gsimulation.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -18,8 +19,7 @@ public:
     ~Widget();
 
 private:
-    Astro *astro;
     Ui::Widget *ui;
-    QGraphicsScene *scene;
+    GSimulation *gsimulation;
 };
 #endif // WIDGET_H

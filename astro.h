@@ -2,25 +2,14 @@
 #define ASTRO_H
 
 #include <QGraphicsPixmapItem>
-#include <math.h>
+#include <QDebug>
 
-//#define G 1
-//#define T 0.05 //Segundos
-//#define WIDTH
-//#define HEIGHT
-
-class Astro: public QObject, public QGraphicsPixmapItem {
-
-    Q_OBJECT
-
+class Astro: public QGraphicsPixmapItem {
 private:
-    float v[2], a[2], dist, m, radio; //Floats para utilizar notación científica
-    //std::array<float, 400> tail
+    short radio;
 
 public:
-    float r[2];
-
-    Astro(float x0, float y0, float vx0, float vy0, float _m, float _radio);
+    Astro(short _radio);
 
 };
 
