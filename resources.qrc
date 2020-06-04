@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/sun.png</file>
+        <file>resources/astros/sun.png</file>
+        <file>resources/buttons/play_btn.png</file>
+        <file>resources/buttons/pause_btn.png</file>
+        <file>resources/buttons/stop_btn.png</file>
+        <file>resources/space.png</file>
     </qresource>
 </RCC>

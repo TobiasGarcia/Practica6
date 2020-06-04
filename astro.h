@@ -10,6 +10,7 @@ private:
 
 public:
     Astro(short _radio);
+    void initialize(short _radio);
 
 };
 
