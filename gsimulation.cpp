@@ -1,5 +1,13 @@
 #include "gsimulation.h"
 
+void str2double(QString str, double &dec, short &ten_pow) {
+
+    QStringList list = str.split('E');
+
+    dec = list[0].toDouble();
+    ten_pow = list[1].toInt();
+}
+
 GSimulation::GSimulation(short x, short y, QWidget *parent) : QGraphicsView(parent) {
 
     //Lo del parent es para que se coloque en el QWidget, esto es pensando en la
@@ -7,72 +15,87 @@ GSimulation::GSimulation(short x, short y, QWidget *parent) : QGraphicsView(pare
 
     setGeometry(x, y, 702, 702);
 
+    brush = new QBrush(QImage(":/resources/space.png"));
+    brush->setTransform(QTransform().translate(-351, -351));
+    setBackgroundBrush(*brush);
+
     scene = new QGraphicsScene;
     scene->setSceneRect(-350, -350, (width() - 2), (height() - 2));
 
     update_timer = new QTimer;
 
-    data.resize(3);
-
-    Astro *astro = new Astro(300);
-    data[0][0] = 0;
-    data[0][1] = 0;
-
-    data[0][2] = 0;
-    data[0][3] = 0;
-
-    data[0][4] = 0;
-    data[0][5] = 0;
-
-    data[0][6] = 70000;
-    astro->setPos(data[0][4]*(700./16000.), -data[0][5]*(700./16000.));
-    astros.push_back(astro);
-
-    astro = new Astro(120);
-    data[1][0] = 0;
-    data[1][1] = 0;
-
-    data[1][2] = 2;
-    data[1][3] = 0;
-
-    data[1][4] = 0;
-    data[1][5] = -7000;
-
-    data[1][6] = 70;
-    astro->setPos(data[1][4]*(700./16000.), -data[1][5]*(700./16000.));
-    astros.push_back(astro);
-
-    astro = new Astro(100);
-    data[2][0] = 0;
-    data[2][1] = 0;
-
-    data[2][2] = -1.6;
-    data[2][3] = 1.2;
-
-    data[2][4] = 4000;
-    data[2][5] = 5000;
-
-    data[2][6] = 25;
-    astro->setPos(data[2][4]*(700./16000.), -data[2][5]*(700./16000.));
-    astros.push_back(astro);
-
-    for (short i = 0; i < astros.size(); i++) scene->addItem(astros[i]);
-
     setScene(scene);
 
     connect(update_timer, &QTimer::timeout, this, &GSimulation::move);
-    update_timer->start(20);
+
+    started = false;
 }
 
 GSimulation::~GSimulation() {
     delete update_timer;
+    delete brush;
     delete scene;
+}
+
+void GSimulation::add_astro(double x0, double y0, short radio) {
+
+    Astro *astro = new Astro(radio);
+    astro->setPos(x0*(700./16000.), -y0*(700./16000.));
+    scene->addItem(astro);
+    astros.push_back(astro);
+}
+
+void GSimulation::delete_astro(short index) {
+
+    scene->removeItem(astros[index]);
+    astros.erase(astros.begin() + index);
+}
+
+void GSimulation::update_astro(short index, double x0, double y0, short radio) {
+
+    astros[index]->initialize(radio);
+    astros[index]->setPos(x0*(700./16000.), -y0*(700./16000.));
+}
+
+void GSimulation::start_simulation(QTableWidget *table) {
+
+    double mass;
+    short ten_pow;
+
+    data.resize(table->rowCount());
+    for (short i = 0; i < table->rowCount(); i++) {
+        data[i][0] = 0;
+        data[i][1] = 0;
+
+        data[i][2] = table->item(i, 3)->text().toDouble();
+        data[i][3] = table->item(i, 4)->text().toDouble();
+
+        data[i][4] = table->item(i, 1)->text().toDouble();
+        data[i][5] = table->item(i, 2)->text().toDouble();
+
+        str2double(table->item(i, 5)->text(), mass, ten_pow);
+        data[i][6] = mass*pow(10, ten_pow);
+    }
+
+    started = true;
+    update_timer->start(20);
+}
+
+void GSimulation::stop_simulation(QTableWidget *table) {
+
+    started = false;
+    data.clear();
+
+    for (short i = 0; i < table->rowCount(); i++) {
+        astros[i]->setPos(table->item(i, 1)->text().toDouble()*(700./16000.),
+                          -table->item(i, 2)->text().toDouble()*(700./16000.));
+    }
 }
 
 void GSimulation::move() {
 
-    for (short i = 0; i < astros.size(); i++) {
-        for (short j = (i + 1); j < astros.size(); j++) {
+    for (unsigned short i = 0; i < data.size(); i++) {
+        for (unsigned short j = (i + 1); j < data.size(); j++) {
 
             cube_dist = pow(pow(data[i][4] - data[j][4], 2) + pow(data[i][5] - data[j][5], 2), 1.5);
             a_aux = (data[j][4] - data[i][4])/cube_dist;
@@ -98,6 +121,8 @@ void GSimulation::move() {
         data[i][1] = 0;
     }
 }
+
+
 
 
 
