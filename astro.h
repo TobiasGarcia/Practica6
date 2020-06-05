@@ -2,15 +2,20 @@
 #define ASTRO_H
 
 #include <QGraphicsPixmapItem>
-#include <QDebug>
+#include <time.h>
 
 class Astro: public QGraphicsPixmapItem {
+
+    //Dejamos el código para inicializar objeto dentro del método initialize(),
+    //esto es con el propósito de poder "construir" un mismo objeto varias
+    //veces, sin tener que liberar y reservar memoria de nuevo.
 private:
-    short radio;
+    QPixmap *image;
 
 public:
-    Astro(short _radio);
-    void initialize(short _radio);
+    Astro(short radio);
+    ~Astro() {delete image;};
+    void set_radio(short radio);
 
 };
 

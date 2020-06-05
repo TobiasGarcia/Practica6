@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QTableWidget>
+#include <fstream>
 #include <QTimer>
 #include <math.h>
 #include "astro.h"
@@ -17,6 +18,7 @@ class GSimulation: public QGraphicsView {
     Q_OBJECT
 
 private:
+    std::string data_str;
     QBrush *brush;
     float dt = 12;
     double G = 1, a_aux, cube_dist;
@@ -25,7 +27,9 @@ private:
     std::vector<std::array<double, 7>> data; //ax, ay, vx, vy, x, y, m
 
 public:
+    short simu_num;
     bool started;
+    std::fstream file;
     QTimer *update_timer;
 
     GSimulation(short x, short y, QWidget *parent);

@@ -13,6 +13,8 @@ GSimulation::GSimulation(short x, short y, QWidget *parent) : QGraphicsView(pare
     //Lo del parent es para que se coloque en el QWidget, esto es pensando en la
     //portabilidad.
 
+    srand(time(nullptr));
+
     setGeometry(x, y, 702, 702);
 
     brush = new QBrush(QImage(":/resources/space.png"));
@@ -53,11 +55,27 @@ void GSimulation::delete_astro(short index) {
 
 void GSimulation::update_astro(short index, double x0, double y0, short radio) {
 
-    astros[index]->initialize(radio);
+    astros[index]->set_radio(radio);
     astros[index]->setPos(x0*(700./16000.), -y0*(700./16000.));
 }
 
 void GSimulation::start_simulation(QTableWidget *table) {
+
+    //Esto es para que cuando el archivo simu_num.txt sea modificado durante la ejecución,
+    //simu_num sea actualizado correctamente, o de lo contrario seguirá en el número
+    //en que iba.
+
+    file.open("../Practica6/data/simu_num.txt", std::ios::in);
+    getline(file, data_str);
+    simu_num = std::stol(data_str);
+    file.close();
+    data_str = "";
+
+    file.open("../Practica6/data/simu_num.txt", std::ios::out);
+    file << ++simu_num;
+    file.close();
+
+    file.open("../Practica6/data/simul" + std::to_string(simu_num) + ".txt", std::ios::app);
 
     double mass;
     short ten_pow;
@@ -73,9 +91,18 @@ void GSimulation::start_simulation(QTableWidget *table) {
         data[i][4] = table->item(i, 1)->text().toDouble();
         data[i][5] = table->item(i, 2)->text().toDouble();
 
+        data_str.append(std::to_string(data[i][4]));
+        data_str.push_back('\t');
+        data_str.append(std::to_string(data[i][5]));
+        data_str.push_back('\t');
+
         str2double(table->item(i, 5)->text(), mass, ten_pow);
         data[i][6] = mass*pow(10, ten_pow);
     }
+
+    data_str.push_back('\n');
+    file << data_str;
+    data_str = "";
 
     started = true;
     update_timer->start(20);
@@ -83,8 +110,10 @@ void GSimulation::start_simulation(QTableWidget *table) {
 
 void GSimulation::stop_simulation(QTableWidget *table) {
 
-    started = false;
+    update_timer->stop();
+    file.close();
     data.clear();
+    started = false;
 
     for (short i = 0; i < table->rowCount(); i++) {
         astros[i]->setPos(table->item(i, 1)->text().toDouble()*(700./16000.),
@@ -115,11 +144,20 @@ void GSimulation::move() {
         data[i][4] = data[i][4] + dt*data[i][2];
         data[i][5] = data[i][5] + dt*data[i][3];
 
+        data_str.append(std::to_string(data[i][4]));
+        data_str.push_back('\t');
+        data_str.append(std::to_string(data[i][5]));
+        data_str.push_back('\t');
+
         astros[i]->setPos(data[i][4]*(700./16000.), -data[i][5]*(700./16000.));
 
         data[i][0] = 0;
         data[i][1] = 0;
     }
+
+    data_str.push_back('\n');
+    file << data_str;
+    data_str = "";
 }
 
 

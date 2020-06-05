@@ -157,7 +157,10 @@ void Widget::on_play_btn_clicked() {
     ui->pause_btn->setEnabled(true);
     ui->stop_btn->setEnabled(true);
 
-    if (gsimulation->started) gsimulation->update_timer->start();
+    if (gsimulation->started) {
+        gsimulation->file.open("../Practica6/data/simul" + std::to_string(gsimulation->simu_num) + ".txt", std::ios::app);
+        gsimulation->update_timer->start(20);
+    }
     else gsimulation->start_simulation(ui->table_w);
 }
 
@@ -167,6 +170,7 @@ void Widget::on_pause_btn_clicked() {
     ui->pause_btn->setEnabled(false);
 
     gsimulation->update_timer->stop();
+    gsimulation->file.close();
 }
 
 void Widget::on_stop_btn_clicked() {
