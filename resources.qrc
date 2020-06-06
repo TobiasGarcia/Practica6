@@ -5,5 +5,14 @@
         <file>resources/buttons/pause_btn.png</file>
         <file>resources/buttons/stop_btn.png</file>
         <file>resources/space.png</file>
+        <file>resources/astros/mars.png</file>
+        <file>resources/astros/neptune.png</file>
+        <file>resources/astros/asteroid.png</file>
+        <file>resources/astros/earth.png</file>
+        <file>resources/astros/jupiter.png</file>
+        <file>resources/astros/mercury.png</file>
+        <file>resources/astros/moon.png</file>
+        <file>resources/astros/pluto.png</file>
+        <file>resources/astros/venus.png</file>
     </qresource>
 </RCC>

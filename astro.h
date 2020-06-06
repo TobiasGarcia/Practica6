@@ -2,15 +2,24 @@
 #define ASTRO_H
 
 #include <QGraphicsPixmapItem>
-#include <QDebug>
+
+//Esta clase es con el único propósito de poder agregar una imágen a los diferentes astros
+//que participan de la simulación. Toda la información y cálculo de trayectorias y
+//posiciones se hace dentro de los métodos de la clase GSimulation.
 
 class Astro: public QGraphicsPixmapItem {
+
+    //Encapsulamos el código para inicializar el objeto dentro del método initialize(),
+    //esto es con el propósito de poder "construir" un mismo objeto varias
+    //veces, sin tener que liberar y reservar memoria de nuevo.
+
 private:
-    short radio;
+    QPixmap *image;
 
 public:
-    Astro(short _radio);
-    void initialize(short _radio);
+    Astro(short radio);
+    ~Astro() {delete image;};
+    void set_radio(short radio);
 
 };
 
