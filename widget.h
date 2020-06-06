@@ -18,24 +18,21 @@ class Widget : public QWidget {
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
-    void reset_values();
 
 private slots:
+    void on_up_btn_clicked();
     void on_add_btn_clicked();
     void on_del_btn_clicked();
-    void on_table_w_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
-    void on_up_btn_clicked();
-
     void on_play_btn_clicked();
-
-    void on_pause_btn_clicked();
-
     void on_stop_btn_clicked();
+    void on_pause_btn_clicked();
+    void on_table_w_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
 
 private:
     Ui::Widget *ui;
     GSimulation *gsimulation;
 
     void set_up_table(QTableWidget *table);
+    void reset_values();
 };
 #endif // WIDGET_H
