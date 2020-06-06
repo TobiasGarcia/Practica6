@@ -1,7 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-//La mayor parte del código de ésta la libreria se explica por sí mismo, o es escrito
+//La mayor parte del código de ésta clase se explica por sí mismo, o es escrito
 //con el propósito de agregar detalles basándose simplemente en un gusto personal.
 
 Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget) {
@@ -117,7 +117,8 @@ void Widget::on_del_btn_clicked() {
 
 void Widget::on_table_w_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn) {
 
-    //Para colocar los valores del astros seleccionado dentro de los widgets de entrada.
+    //Para colocar los valores del astro seleccionado por
+    //el usuario dentro de los widgets de entrada.
 
     Q_UNUSED(previousColumn)
     Q_UNUSED(currentColumn)
@@ -186,15 +187,15 @@ void Widget::on_play_btn_clicked() {
         gsimulation->update_timer->start(20);
     }
 
-    //De lo contrario llamamos el método start_simulation() para inicializar todas las variables
-    //necesarias de la simulación, pues apenas va a comenzar.
+    //De lo contrario, llamamos el método start_simulation() para inicializar todas las variables
+    //necesarias de la simulación, pues ésta apenas va a comenzar.
 
     else gsimulation->start_simulation(ui->table_w);
 }
 
 void Widget::on_pause_btn_clicked() {
 
-    //Cuando se presiona el botón para pausar la simulación
+    //Cuando se presiona el botón para pausar la simulación.
 
     ui->play_btn->setEnabled(true);
     ui->pause_btn->setEnabled(false);

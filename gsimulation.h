@@ -9,7 +9,7 @@
 #include "astro.h"
 
 //Esta clase modela la simulación. Decidí hacerla que heredara la clase QGraphicsView en lugar
-//de QGraphicsScene para que lo límites del QGraphicsView donde se presentará la escena
+//de QGraphicsScene para que los límites del QGraphicsView donde se presentará la escena
 //puedieran ser definidos desde dentro de la clase.
 
 //Implementamos la siguiente función en lugar de sencillamente usar QString::number(),
@@ -26,7 +26,7 @@ private:
 
     //La variable dt corresponde al valor de T dentro de las fórmulas para calcular las componentes de
     //la velocidad y la posición. Éste valor es convencionalmente pequeño para obtener una buena simulación y,
-    //aunque no lo parezca a primera vista, como las dimensiones son de 16000 x 16000 pixeles,
+    //aunque no lo parezca a primera vista, como las dimensiones son de 16000 x 16000 unidades,
     //el valor de la variable dt sí es relativamente pequeño para éste caso.
 
     float dt = 12;
@@ -39,20 +39,20 @@ private:
     //numeros de diversas magnitudes que poseen varias cifras significativas.
 
     //Nota: Como se mencionó, tomaremos el valor de G (la constante de gravitación universal)
-    //identicamente como 1.
+    //idénticamente como 1.
 
     double G = 1, a_aux, cube_dist;
 
     //El siguiente vector contendrá la información de toda la simulación, ésto es sencillamente
-    //para poder optimizar los cálculos a la hora de llevarla a cabo; utilizando éste vector
+    //para poder optimizar los cálculos a la hora de llevarla a cabo. Utilizando éste vector
     //estamos sectorizando toda la información necesaria en un mismo bloque dentro de la
     //memoria, en lugar de tenerla distribuida en diferentes direcciones dentro de los
     //objetos de la clase Astro.
 
     //Cada elemento es un arreglo de 7 doubles que almacena la información de uno los astro;
-    //el primero y el segundo dato son las aceleraciones en x e y respectivamente, el tercer y
-    //el cuarto dato son las componentes de la velocidad en x e y respectivamente, el quinto y sexto
-    //dato las posiciones en x e y respectivamente, y el último dato es la masa del astro en cuestión.
+    //el primer y segundo dato son las aceleraciones en x e y respectivamente, el tercer y cuarto
+    //dato son las componentes de la velocidad en x e y respectivamente, el quinto y sexto dato las
+    //posiciones en x e y respectivamente, y el último dato es la masa del astro en cuestión.
 
     std::vector<std::array<double, 7>> data; //ax, ay, vx, vy, x, y, m
 

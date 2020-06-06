@@ -27,8 +27,8 @@ void Astro::set_radio(short radio) {
     //aunque en realidad siempre termina en un entero entre entre 10 y 85, inclusive.
 
     //Notmeos que 10 es el mínimo valor para el radio, ésto es con el propósito de que siempre
-    //se pueda ver la imágen, ya que si permitiamos al 1 ser el mínimo valor habrían casos
-    //donde el astro estaría dentro de la simulación pero casi no se veria en lo absoluto.
+    //se pueda ver la imágen, ya que si permitiésemos al 1 ser el mínimo valor habrían casos
+    //donde el astro estaría dentro de la simulación pero casi no se vería en lo absoluto.
 
     short diameter = 2*(10 + short(radio/10));
     setOffset(-diameter/2, -diameter/2);
